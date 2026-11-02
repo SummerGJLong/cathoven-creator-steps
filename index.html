@@ -85,21 +85,29 @@
     </div>
   </div>
 
-  <p class="small" style="text-align:center">This page shows the steps only. Your selection is on the selected list, not on this page.</p>
+  <p class="small" style="text-align:center">This page shows the steps only. Your selection is on the selected list, not on this page.<br>Page updated 3 Nov 2026.</p>
 
 </div>
 <script>
-  // Links taken from the PRD draft's Screening table (1.1), so both
-  // "Click here" buttons open the real form and the real selected list.
+  // Links verified 2026-11-02 23:43 (UTC+8): form = Screening_PH group description; list = Cathoven Creator Screening Sheet (anyone with link can view, names and dates only).
   var FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSdWGDFkPp1Oq-KzloWzDvpvBYpbJQflhyVmck1X33zLYwrpOA/viewform";
   var LIST_URL = "https://docs.google.com/spreadsheets/d/1v51Zbktcv8ZagJgvYmV7Xphv9n46FgK8gX81fYp1gfw/edit";
   var states = [
-    { title: "Submit the form", btn: "Click here", url: FORM_URL },
-    { title: "Wait", btn: "Click here to see the selected candidates", url: LIST_URL, text: "Check the list in 2 days." },
-    { title: "Message the admin", text: "Ask for the trial group link." }
+    { title: "Submit the form", btn: "Open the form", url: FORM_URL, text: "Fill in your details and upload your sample video. You need to sign in with a Google account to upload the video." },
+    { title: "Wait", btn: "See the selected list", url: LIST_URL, text: "We check new forms every 2 days. Look for your name on the list." },
+    { title: "Message the admin", btn: "Copy the message", copy: true, text: "1) Change your WhatsApp name to your FULL NAME. 2) Send this message to the admin of this group: \u201cI'm [your full name]. I passed the selection and would like to request the trial group link.\u201d" }
   ];
   var currentUrl = "";
+  var currentCopy = false;
+  var COPY_TEXT = "I'm [your full name]. I passed the selection and would like to request the trial group link.";
   function nowAction() {
+    if (currentCopy) {
+      var note = document.getElementById("nowNote");
+      var done = function(){ note.textContent = "Copied. Replace [your full name] with your name, then send it."; note.style.display = "block"; };
+      if (navigator.clipboard) { navigator.clipboard.writeText(COPY_TEXT).then(done, function(){ note.textContent = COPY_TEXT; note.style.display = "block"; }); }
+      else { note.textContent = COPY_TEXT; note.style.display = "block"; }
+      return;
+    }
     if (currentUrl) { window.open(currentUrl, "_blank"); }
   }
   function setState(n) {
@@ -112,33 +120,14 @@
     if (states[n].btn) {
       btn.textContent = states[n].btn;
       btn.style.display = "block";
-      currentUrl = states[n].url;
+      currentUrl = states[n].url || "";
+      currentCopy = !!states[n].copy;
     } else {
+      currentCopy = false;
       btn.style.display = "none";
       currentUrl = "";
     }
     document.getElementById("nowNote").style.display = "none";
-  }
-  var editing = false;
-  function toggleEdit() {
-    editing = !editing;
-    document.body.className = editing ? "editing" : "";
-    var els = document.querySelectorAll("h1, h2, h3, p");
-    for (var i = 0; i < els.length; i++) { els[i].contentEditable = editing ? "true" : "false"; }
-    document.getElementById("editBtn").textContent = editing ? "✓ Done editing" : "✏️ Edit text";
-    document.getElementById("saveBtn").style.display = editing ? "block" : "none";
-    document.getElementById("editHint").style.display = editing ? "block" : "none";
-    if (!editing) { setState(0); }
-  }
-  function downloadPage() {
-    toggleEdit();
-    var html = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
-    var blob = new Blob([html], {type: "text/html"});
-    var a = document.createElement("a");
-    a.href = URL.createObjectURL(blob);
-    a.download = "screening-welcome-edited.html";
-    a.click();
-    URL.revokeObjectURL(a.href);
   }
   setState(0);
 </script>
