@@ -92,7 +92,7 @@
       <ul>
         <li><b>Writing and Speaking = Cathoven.</b></li>
         <li><b>Listening and Reading = randomly pick two out of three.</b> Pick two different websites from ieltsgo9.com, ieltspie.com, and ieltswhisper.com — one for Listening, one for Reading.</li>
-        <li><b>Only ONE Cathoven gets an emoticon in a List.</b> Use only these: 🔥 👍 💜 ⭐. Writing uses the purple one: Writing 💜 Cathoven. If Writing gets one, Speaking gets none. Other websites get no emoticon. In a Compare, no emoticon at all — the logos are enough.</li>
+        <li><b>Icons are your choice — for example, one emoticon for Cathoven.</b> For Cathoven, for example, give one an emoticon, or give none — it is up to you. If you give one, keep the other Cathoven plain, so it does not look fake. In a Compare, no emoticon at all — the logos are enough. All in all, please do not make the whole visual look messy and messed up. We rely on you; we just give you examples.</li>
         <li><b>Do not write the link every time.</b> You can write cathoven.com, or Cathoven IELTS, or Cathoven AI.</li>
       </ul>
     </div>
@@ -105,21 +105,22 @@
       <div style="flex:1 1 280px"><div class="card" id="makeVisual" style="padding:0;overflow:hidden"></div><p id="makeLinkLine"><a id="makeLink" href="https://www.tiktok.com/@ielts.withgrantz/video/7647159257665654036" target="_blank" rel="noopener">▶ Watch this video</a></p></div>
       <div style="flex:1 1 280px">
     <div id="emojiPicker">
-    <p>Pick ONE emoticon for Cathoven. Only one Cathoven row gets it. The other Cathoven row gets none.</p>
-    <p class="small">Two ways: do it here, or ask ChatGPT. Tap “Surprise me” and we pick a new variation for you.</p>
+    <p>Pick ONE emoticon for Cathoven (optional). For example, give one an emoticon, or give none — it is up to you.</p>
+    <p class="small">Two ways: do it here, or ask ChatGPT. Tap “Pick a random set for me” below and we pick a new variation for you.</p>
     <button class="ghost" id="copyPromptBtn" onclick="copyPrompt()">Copy prompt for ChatGPT</button>
     <p class="small" id="promptMsg" style="display:none">Prompt copied. Paste it into ChatGPT, then bring your set back here.</p>
     <div class="card">
-      <div class="row"><span class="skill">Listening 🎧</span><span><select id="bListen" onchange="renderMySet()"><option>ieltspie.com</option><option>ieltsgo9.com</option><option>ieltswhisper.com</option></select></span></div>
-      <div class="row"><span class="skill">Speaking 🗣️</span><span><span id="bSpeakEmoji">–</span> <select id="bSpeakForm" style="width:auto" onchange="renderMySet()"><option>Cathoven</option><option>cathoven.com</option><option>Cathoven IELTS</option><option>Cathoven AI</option></select></span></div>
-      <div class="row"><span class="skill">Reading 📖</span><span><select id="bRead" onchange="renderMySet()"><option>ieltsgo9.com</option><option>ieltspie.com</option><option>ieltswhisper.com</option><option>Books</option><option>Cambridge Books</option></select></span></div>
-      <div class="row"><span class="skill">Writing ✍️</span><span><span id="bWriteEmoji">💜</span> <select id="bWriteForm" style="width:auto" onchange="renderMySet()"><option>Cathoven</option><option>cathoven.com</option><option>Cathoven IELTS</option><option>Cathoven AI</option></select></span></div>
+      <div class="row"><span class="skill">Listening</span><span><select id="bListen" onchange="renderMySet()"><option>ieltspie.com</option><option>ieltsgo9.com</option><option>ieltswhisper.com</option></select></span></div>
+      <div class="row"><span class="skill">Speaking</span><span><span id="bSpeakEmoji">–</span> <select id="bSpeakForm" style="width:auto" onchange="renderMySet()"><option>Cathoven</option><option>cathoven.com</option><option>Cathoven IELTS</option><option>Cathoven AI</option></select></span></div>
+      <div class="row"><span class="skill">Reading</span><span><select id="bRead" onchange="renderMySet()"><option>ieltsgo9.com</option><option>ieltspie.com</option><option>ieltswhisper.com</option><option>Books</option><option>Cambridge Books</option></select></span></div>
+      <div class="row"><span class="skill">Writing</span><span><span id="bWriteEmoji">💜</span> <select id="bWriteForm" style="width:auto" onchange="renderMySet()"><option>Cathoven</option><option>cathoven.com</option><option>Cathoven IELTS</option><option>Cathoven AI</option></select></span></div>
     </div>
-    <p>Pick emoticon for Writing: <span id="writePick"></span></p>
-    <p>Pick emoticon for Speaking: <span id="speakPick"></span></p>
-    <p class="small">No emoticon for Listening or Reading. That is the rule.</p>
+    <p>For example, pick ONE emoticon for Cathoven (optional): <span id="cathovenPick"></span></p>
+    <p>Put it on: <select id="cathovenTarget" style="width:auto" onchange="setCathovenTarget(this.value)"><option value="write">Writing Cathoven</option><option value="speak">Speaking Cathoven</option></select></p>
+    <p class="small">Listening and Reading usually get no emoticon — keep it clean. These buttons are only examples. You can also use your own emoticon in your video. Emoticon is optional, not required.</p>
     </div>
-    <button class="bigbtn" onclick="surpriseSet()">🎲 Surprise me</button>
+    <button class="bigbtn" onclick="surpriseSet()">🎲 Pick a random set for me</button>
+    <p class="small">Tap this button if you do not know what to pick. We pick the websites for you — and a Cathoven emoticon, if your type uses one. You can still change anything yourself after.</p>
     <button class="ghost" id="copyMySetBtn" onclick="copyMySet()">Copy my set</button>
     <p class="small" id="setCopyMsg" style="display:none">Tap the text below if it did not copy by itself.</p>
     <textarea id="copyTextBox" rows="6" readonly style="display:none;width:100%;font-size:15px"></textarea>
@@ -235,8 +236,10 @@
     document.getElementById("formMsg").style.display="block";
     renderList();
   }
-  var EMOJIS = ["🔥","👍","💜","⭐"];
+  var EMOJIS = ["🔥","👍","💜","⭐","✍️","🗣️"];
   var writeEmoji = "💜", speakEmoji = "";
+  // One emoticon for Cathoven in total, not one picker per row.
+  var cathovenEmoji = "💜", cathovenTarget = "write";
   function emojiButtons(target, current){
     var btns = EMOJIS.map(function(e){
       return "<button type='button' class='emobtn' style='font-size:20px;padding:6px 9px"+(e===current?";border-color:#372179;background:#f5f2ff":"")+"' onclick=\"setEmoji('"+target+"','"+e+"')\">"+e+"</button>";
@@ -245,16 +248,28 @@
     return btns;
   }
   function setEmoji(target, e){
-    // Only ONE Cathoven row gets an emoticon. Picking one clears the other.
-    if(target==="write"){ writeEmoji=e; if(e!==""){ speakEmoji=""; document.getElementById("bSpeakEmoji").textContent="–"; } document.getElementById("bWriteEmoji").textContent=e===""?"–":e; }
-    else { speakEmoji=e; if(e!==""){ writeEmoji=""; document.getElementById("bWriteEmoji").textContent="–"; } document.getElementById("bSpeakEmoji").textContent=e===""?"–":e; }
-    renderEmojiPicks(); renderMySet();
+    // One emoticon for Cathoven in total. The single picker sets it; the other Cathoven row stays plain.
+    if(target==="cathoven"){
+      cathovenEmoji=e;
+      if(e===""){ writeEmoji=""; speakEmoji=""; }
+      else if(cathovenTarget==="write"){ writeEmoji=e; speakEmoji=""; }
+      else { speakEmoji=e; writeEmoji=""; }
+    } else if(target==="write"){ writeEmoji=e; if(e!==""){ speakEmoji=""; cathovenEmoji=e; cathovenTarget="write"; } document.getElementById("bWriteEmoji").textContent=e===""?"–":e; }
+    else { speakEmoji=e; if(e!==""){ writeEmoji=""; cathovenEmoji=e; cathovenTarget="speak"; } document.getElementById("bSpeakEmoji").textContent=e===""?"–":e; }
+    renderCathovenPick(); renderMySet();
+  }
+  function setCathovenTarget(t){
+    cathovenTarget=t;
+    if(cathovenEmoji!==""){
+      if(t==="write"){ writeEmoji=cathovenEmoji; speakEmoji=""; } else { speakEmoji=cathovenEmoji; writeEmoji=""; }
+    }
+    renderCathovenPick(); renderMySet();
   }
 
   var EXAMPLES = {
     simple: {type:"list", title:"Website List", hook:"Preparing for IELTS? Then you need to know this.", layout:"One list. No logos.", video:"https://www.tiktok.com/@ielts.withgrantz/video/7647159257665654036"},
     logo: {type:"list", title:"Logo List", hook:"Best tools to study IELTS.", layout:"Logo left, arrow middle, skill right. One after another.", video:"https://www.tiktok.com/@cathovenai/video/7634198876588608782"},
-    outcome: {type:"compare", title:"Compare Daily Vlog", hook:"No hook in this video.", layout:"Left vs Right. Low vs High. Two routines.", video:"https://www.tiktok.com/@joyieltstudy/video/7603362296940809480"},
+    outcome: {type:"compare", title:"Compare Daily Vlog", hook:"No hook in this video.", layout:"Two columns over one person. Left, Band 6 in IELTS: 10hr study, 3hrs sleep, Chatgpt, IELTS books, IELTS tutor. Right, Band 8.5 in IELTS: 2 week prep, 4hr study, 8hr sleep, Cathoven AI.", video:"https://www.tiktok.com/@joyieltstudy/video/7603362296940809480"},
     skill: {type:"compare", title:"Compare 5 vs 8 with Logo", hook:"Best tools to study IELTS.", layout:"Left vs Right. Skill on top, logo below.", video:"https://www.tiktok.com/@cathovenai/video/7662781231825751309"},
     compareNoLogo: {type:"compare", title:"Compare 5 vs 8 without Logo", hook:"No video yet - no hook to copy.", layout:"Variant of Compare 5 vs 8 with Logo. Same Left vs Right layout, but tool names in text, no logos.", video:""}
   };
@@ -349,9 +364,11 @@
     var b = document.getElementById("makeVisual"); if(b) b.innerHTML = h;
   }
 
-  function renderEmojiPicks(){
-    document.getElementById("writePick").innerHTML = emojiButtons("write", writeEmoji);
-    document.getElementById("speakPick").innerHTML = emojiButtons("speak", speakEmoji);
+  function renderCathovenPick(){
+    var el = document.getElementById("cathovenPick");
+    if(el) el.innerHTML = emojiButtons("cathoven", cathovenEmoji);
+    var ts = document.getElementById("cathovenTarget");
+    if(ts) ts.value = cathovenTarget;
   }
   function cathovenLine(emoji, form){
     return emoji === "" ? form : emoji + " " + form;
@@ -409,11 +426,10 @@
     var re = rest[Math.floor(Math.random()*rest.length)];
     document.getElementById("bListen").value = li;
     document.getElementById("bRead").value = re;
-    if(currentType==="compare" || currentExample==="logo"){ setEmoji("write", ""); setEmoji("speak", ""); }
+    if(currentType==="compare" || currentExample==="logo"){ setEmoji("cathoven", ""); }
     else {
       var e1 = EMOJIS[Math.floor(Math.random()*EMOJIS.length)];
-      if(Math.random() < 0.5){ setEmoji("write", e1); setEmoji("speak", ""); }
-      else { setEmoji("speak", e1); setEmoji("write", ""); }
+      setEmoji("cathoven", e1);
     }
     renderMySet();
   }
@@ -558,6 +574,17 @@
     document.getElementById("logoPack").innerHTML = html;
   }
   function renderCompare(){
+    if(currentExample==="outcome"){
+      var dailyHtml = "<h3>Compare Daily Vlog</h3><div style='display:grid;grid-template-columns:1fr 1fr;gap:10px;text-align:center'>"
+        + "<div><div style='color:#c00000;font-weight:800'>✗ Band 6 in IELTS</div>"
+        + "<div style='margin:8px 0'>10hr study</div><div style='margin:8px 0'>3hrs sleep</div><div style='margin:8px 0'>Chatgpt</div><div style='margin:8px 0'>IELTS books</div><div style='margin:8px 0'>IELTS tutor</div></div>"
+        + "<div><div style='color:#1a7a3a;font-weight:800'>✓ Band 8.5 in IELTS</div>"
+        + "<div style='margin:8px 0'>2 week prep</div><div style='margin:8px 0'>4hr study</div><div style='margin:8px 0'>8hr sleep</div><div style='margin:8px 0'>Cathoven AI</div></div>"
+        + "</div><p class='small'>From the original video — daily routine, not skills. Text only on both sides — no logo and no emoticon, just like the original.</p>";
+      document.getElementById("comparePreview").innerHTML = dailyHtml;
+      renderLogoPack();
+      return;
+    }
     var rows = [
       ["Listening", compareLeft["Listening"], document.getElementById("bListen").value, ""],
       ["Speaking", compareLeft["Speaking"], document.getElementById("bSpeakForm").value, speakEmoji],
@@ -605,7 +632,7 @@
     if(currentType==="compare" || currentExample==="logo"){
       text = "Make me a Cathoven listing set. Rules: Listening and Reading randomly pick two different websites out of ieltsgo9.com, ieltspie.com, and ieltswhisper.com. Writing and Speaking are Cathoven. No emoticon at all. Logos are enough. Writing is always last. For Reading, Books or Cambridge Books can be chosen instead of a website, and the book sticker is used then.";
     } else {
-      text = "Make me a Cathoven listing set. Rules: Listening and Reading randomly pick two different websites out of ieltsgo9.com, ieltspie.com, and ieltswhisper.com. Writing and Speaking are Cathoven. Only ONE Cathoven gets an emoticon, or no emoticon is also okay. If one Cathoven row gets an emoticon, the other Cathoven row gets none. Use only these emoticons: fire, thumbs up, purple heart, star. Other websites get no emoticon. In compare cards, use no emoticon at all. Writing is always last. For Reading, Books or Cambridge Books can be chosen instead of a website, and the book sticker is used then.";
+      text = "Make me a Cathoven listing set. Rules: Listening and Reading randomly pick two different websites out of ieltsgo9.com, ieltspie.com, and ieltswhisper.com. Writing and Speaking are Cathoven. Emoticon is optional. For example, one Cathoven can get an emoticon, like purple heart. Or give none at all. If one Cathoven row gets an emoticon, keep the other Cathoven row plain, so it does not look fake. For example emoticons: fire, thumbs up, purple heart, star, writing pen, speaking person — you can also use your own. Other websites get no emoticon. In compare cards, use no emoticon at all. For Cathoven, the emoticon can also be a writing pen or a speaking person, for example. Writing is always last. For Reading, Books or Cambridge Books can be chosen instead of a website, and the book sticker is used then.";
     }
     doCopy(text, "copyTextBox", "promptMsg");
   }
@@ -656,7 +683,7 @@
     var blob=new Blob([html],{type:"text/html"});var a=document.createElement("a");
     a.href=URL.createObjectURL(blob);a.download="video-listing-guide-edited.html";a.click();URL.revokeObjectURL(a.href);
   }
-  renderEmojiPicks(); renderMySet(); renderList(); loadCustomTypes(); showExample('simple');
+  renderCathovenPick(); renderMySet(); renderList(); loadCustomTypes(); showExample('simple');
 </script>
 </body>
 </html>
