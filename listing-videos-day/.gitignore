@@ -1,0 +1,14 @@
+private/
+data/
+backups/
+.env
+.env.*
+*.sqlite
+*.sqlite-*
+*.db
+*.zip
+__pycache__/
+*.pyc
+original-prototype.html
+deployment.json
+*-verification.json
