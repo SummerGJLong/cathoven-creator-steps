@@ -107,7 +107,7 @@
       try { recovery = new URL(this.location.href).searchParams.get('recover') === '1'; } catch (_) {}
       if (this.snapshot.errors.length) this.set('error',this.snapshot.errors.join('\n'));
       else if (!this.snapshot.hasData) {
-        this.set('empty','No previous Listing Videos Day records were found in this browser.');
+        this.set('empty','No previous Viral Video Pool records were found in this browser.');
         if (!recovery) this.location.replace(CANONICAL_URL);
       } else this.set('ready','Your earlier browser copy is here. Move it once to add it to the shared list.');
       return this.snapshot;

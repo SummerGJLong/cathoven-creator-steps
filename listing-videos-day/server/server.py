@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Append-only Listing Videos storage. Run behind the configured Caddy gateway."""
+"""Append-only Viral Video Pool storage. Run behind the configured Caddy gateway."""
 import datetime as dt
 import hashlib
 import hmac
@@ -18,6 +18,11 @@ import uuid
 
 GROUPS = ('Aira', 'Asher', 'Eya', 'Jackie', 'Kyla')
 MAX_BODY = 2 * 1024 * 1024
+ADMIN_REQUIRED_MESSAGE = (
+    'Only an administrator can add shared video types. Video links can still be submitted. '
+    'For a saved copy containing custom types, download the recovery JSON and ask Summer '
+    'to import it from the admin page.'
+)
 TRACKING = {'fbclid', 'igsh', 'igshid', 'si', 'share', 'share_id', 'is_from_webapp',
             'sender_device', 'web_id', 'is_copy_url', 'timestamp', 'feature', 'vrfl'}
 SOCIAL = ('tiktok.com', 'instagram.com', 'youtube.com', 'youtu.be', 'facebook.com', 'fb.watch')
@@ -378,7 +383,7 @@ def make_handler(store, api_key, allowed_origins, limiter=None):
     limiter = limiter or RateLimiter()
 
     class Handler(BaseHTTPRequestHandler):
-        server_version = 'ListingVideos'
+        server_version = 'ViralVideoPool'
         sys_version = ''
 
         def setup(self):
@@ -412,6 +417,14 @@ def make_handler(store, api_key, allowed_origins, limiter=None):
                 return False
             return True
 
+        def administrator(self):
+            # Only the authenticated gateway may supply this role marker. The
+            # public gateway route must strip any visitor-provided value.
+            if self.headers.get('X-Listing-Admin') != '1':
+                self.reply(403, {'error': 'admin_required', 'message': ADMIN_REQUIRED_MESSAGE})
+                return False
+            return True
+
         def do_GET(self):
             parts = urlsplit(self.path)
             if parts.path == '/healthz':
@@ -426,6 +439,10 @@ def make_handler(store, api_key, allowed_origins, limiter=None):
                     self.reply(503, {'error': 'database_unavailable'})
                 return
             if not self.authorized():
+                return
+            if parts.path == '/api/admin-session':
+                if self.administrator():
+                    self.reply(200, {'authenticated': True, 'role': 'admin'})
                 return
             if parts.path != '/api/state':
                 self.reply(404, {'error': 'not_found'})
@@ -490,6 +507,11 @@ def make_handler(store, api_key, allowed_origins, limiter=None):
                 if len(body) != size:
                     raise Invalid('Incomplete request')
                 payload = json.loads(body, parse_constant=lambda _: (_ for _ in ()).throw(Invalid('Non-finite JSON value')))
+                requires_admin = kind == 'types' or (
+                    kind == 'import' and isinstance(payload, dict) and bool(payload.get('types'))
+                )
+                if requires_admin and not self.administrator():
+                    return
                 status, result = store.apply(kind, payload)
                 self.reply(status, result)
             except (Invalid, ValueError, UnicodeDecodeError, RecursionError) as error:
@@ -506,7 +528,7 @@ def main():
     origins = [origin.strip() for origin in os.environ.get('LISTING_ALLOWED_ORIGINS', 'https://srv2054680.hstgr.cloud,https://summergjlong.github.io').split(',') if origin.strip()]
     handler = make_handler(Store(os.environ.get('LISTING_DB_PATH', '/data/listing.sqlite')), key, origins)
     server = ThreadingHTTPServer((os.environ.get('HOST', '0.0.0.0'), int(os.environ.get('PORT', '8080'))), handler)
-    print('Listing Videos storage service ready', flush=True)
+    print('Viral Video Pool storage service ready', flush=True)
     try:
         server.serve_forever()
     except KeyboardInterrupt:

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<title>Viral Video Pool — Admin</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f7f6fc;color:#2e2a45;font:15px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif}.wrap{max-width:1000px;margin:0 auto;padding:24px 20px 44px}.hero{background:linear-gradient(135deg,#372179,#2d1a6b);color:#fff;padding:24px;border-radius:20px}.hero h1{margin:0;font-size:28px;line-height:1.25}.hero p{margin:8px 0 0;color:#e6ddff}a{color:#372179}button,input{font:inherit}button{cursor:pointer;border:0;border-radius:999px;padding:10px 17px;background:#372179;color:#fff;font-weight:750}button.ghost{background:#fff;border:1px solid #d9d5ea;color:#372179}button:disabled,input:disabled{opacity:.5;cursor:wait}input{display:block;width:100%;padding:11px 12px;border:1px solid #d9d5ea;border-radius:10px;margin:6px 0 14px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin-top:18px}.card{min-width:0;background:#fff;border:1px solid #e4dff2;border-radius:18px;padding:20px}.card h2{margin:0 0 8px;color:#2d1a6b;font-size:20px}.small{font-size:13px;color:#6f6b8a}label{display:block;font-weight:650}.status{border:1px solid #efd48a;background:#fff3cd;color:#735600;border-radius:14px;padding:14px 16px;margin:16px 0}.status.good{border-color:#c8e5d3;background:#edf7f1;color:#205d37}.status.problem{border-color:#efbdc5;background:#ffebee;color:#a52536}.details{white-space:pre-wrap;overflow-wrap:anywhere}.actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}.message{white-space:pre-wrap;overflow-wrap:anywhere}.type-list{margin:12px 0 0;padding-left:20px}.type-list li{margin-bottom:10px;overflow-wrap:anywhere}.type-list a{display:block;font-size:13px}.footer{margin-top:22px}.message:empty,.details:empty{display:none}@media(max-width:720px){.wrap{padding:16px 14px 32px}.grid{grid-template-columns:1fr}.hero{padding:20px}.hero h1{font-size:26px}.card{padding:18px}}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <header class="hero"><h1>Viral Video Pool</h1><p>Administrator · Shared video types and recovery</p></header>
+  <section class="status" id="adminStatus" role="status" aria-live="polite"><strong id="adminStatusText">Checking administrator access…</strong><div class="details" id="adminStatusDetails"></div><div class="actions" id="adminActions"></div></section>
+  <div class="grid">
+    <section class="card">
+      <h2>Add a shared video type</h2>
+      <p class="small">After the server confirms the save, everyone can use this type.</p>
+      <form id="typeForm">
+        <label for="adminTypeName">Type name</label><input id="adminTypeName" maxlength="200" placeholder="For example: Star List" disabled required>
+        <label for="adminTypeVideo">Example video link (optional)</label><input id="adminTypeVideo" placeholder="Paste an http or https video link" disabled>
+        <button id="adminSaveType" disabled>Save shared type</button>
+      </form>
+      <p class="message small" id="adminTypeMessage" role="status"></p>
+    </section>
+    <section class="card">
+      <h2>Import a saved copy</h2>
+      <p class="small">Choose a Viral Video Pool JSON backup. This can restore video links and shared types. Repeated entries are counted once; conflicting submitter details stay for review.</p>
+      <label for="adminBackupInput">JSON recovery file</label><input id="adminBackupInput" type="file" accept=".json,application/json" disabled>
+      <p class="message small" id="adminImportMessage" role="status"></p>
+      <p class="small">The original file stays on your device. Wait for the green server confirmation before closing this page.</p>
+    </section>
+  </div>
+  <section class="card" style="margin-top:18px"><h2>Shared video types</h2><p id="adminCounts" class="small">Loading the shared list…</p><ul id="adminTypeList" class="type-list"></ul></section>
+  <section class="card" style="margin-top:18px"><h2>Page text and design</h2><p class="small">Publish text and layout updates from Muse and the GitHub source. Visitors have no website text editor. This admin page manages shared video types and saved-copy recovery.</p></section>
+  <p class="footer"><a href="../">Open the creator page →</a></p>
+</main>
+<script src="../shared-client.js"></script>
+<script src="./admin.js"></script>
+</body>
+</html>

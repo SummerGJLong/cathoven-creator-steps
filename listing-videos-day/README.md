@@ -1,4 +1,4 @@
-# Listing Videos Day
+# Viral Video Pool
 
 Live creator page: https://srv2054680.hstgr.cloud/listing-videos-day/
 
@@ -22,7 +22,7 @@ The original GitHub Pages origin has the old browser data. Its recovery page ret
 
 ## Runtime
 
-Use the existing Cathoven Caddy ingress and an independent `listing-videos-day` Compose project. Mount the API source read-only, persist its database directory, and publish no backend host port. Caddy injects a separate private service key. The API permits writes only from the canonical origin and the original GitHub Pages origin with the custom request header. Public creator access is retained; the shared list is an append-only public submission board, not the private Creator CRM.
+Use the existing Cathoven Caddy ingress and an independent `listing-videos-day` Compose project. Mount the API source read-only, persist its database directory, and publish no backend host port. Caddy injects a separate private service key. The API permits writes only from the canonical origin and the original GitHub Pages origin with the custom request header. Public creator access is retained; the shared list is an append-only public submission board. Shared video types and recovery imports containing types require the separate administrator login at `/listing-videos-day/admin/`. The creator page has no text editor. Strip all visitor administrator headers on public API routes; inject the trusted role only after protected administrator login.
 
 For updates, preserve the database and secrets, publish the complete tested source, deploy the same commit, then verify submission visibility from separate clients and persistence after service recreation. Test the old-origin CORS/recovery path. Keep all existing Monitor, WhatsApp, Creator CRM and tool routes.
 
@@ -35,3 +35,7 @@ Run the Python backend tests and the Node shared-client/recovery tests before pu
 Use the included consistent SQLite backup tool and verify integrity before restoring. Nightly server recovery snapshots are kept outside the web root. An off-server recovery bundle belongs in Summer's designated Drive Backups folder. A Drive snapshot is not a continuous replica unless an explicit update process has been configured.
 
 Old submissions cannot be reconstructed from the repository: each original browser must open the old-origin recovery entry to transfer its saved records. The old keys are retained after successful transfer.
+
+## Administrator access
+
+The protected administrator entry is `https://srv2054680.hstgr.cloud/listing-videos-day/admin/`. Its separate login stays in restricted server storage and is never part of GitHub source. Creators may submit links and use existing formats; only an authenticated administrator can publish shared formats or import a recovery copy containing formats. An original browser copy is retained if an import requires administrator approval. Text and layout updates are published from the source repository/Muse design through the authorized deployment process.

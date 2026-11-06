@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="canonical" href="https://srv2054680.hstgr.cloud/listing-videos-day/">
-<title>Cathoven IELTS Creator Community — Listing Videos Day</title>
+<title>Viral Video Pool — Cathoven</title>
 <style>
   *{box-sizing:border-box}
   body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;background:#ffffff;color:#2e2a45}
@@ -36,25 +36,16 @@
   .count b{font-size:20px;color:#372179}
   .entry{border:1px solid #e9e4f5;border-radius:16px;padding:14px;margin:10px 0}
   .entry a{color:#372179;font-weight:700;word-break:break-all}
-  .toolbar{display:flex;gap:8px;margin:0 0 12px}
-  .toolbar button{flex:1;padding:11px;border-radius:12px;border:1.5px solid #d9d5ea;background:#fff;font-size:14px;font-weight:700}
-  body.editing h1,body.editing h2,body.editing h3,body.editing p,body.editing li{outline:2px dashed #ff8a3d;outline-offset:3px}
   @media (max-width:700px){.counts{flex-direction:column}}
 
-  .shared-status{padding:14px 16px;border:1px solid #c8e5d3;background:#edf7f1;border-radius:14px;margin:14px 0;color:#205d37;font-size:14px}.shared-status.pending{border-color:#efd48a;background:#fff3cd;color:#735600}.shared-status.problem{border-color:#efbdc5;background:#ffebee;color:#a52536}.shared-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}.shared-detail{white-space:pre-wrap;overflow-wrap:anywhere;margin-top:7px}.compact{font-size:13px;padding:7px 12px}.recovery-card{background:#f8f6ff;border:1px solid #d9d5ea;padding:14px;border-radius:14px;margin-top:14px}.recovery-card p{font-size:14px}.type-modal{position:fixed;inset:0;z-index:100;background:rgba(20,10,50,.35);display:flex;align-items:center;justify-content:center;padding:18px}.type-modal[hidden]{display:none}.type-dialog{background:#fff;max-width:460px;width:100%;border-radius:18px;padding:22px}.type-actions{display:flex;gap:8px;justify-content:flex-end}.entry{overflow-wrap:anywhere}button:disabled{opacity:.5;cursor:wait}.toolbar{flex-wrap:wrap}@media(max-width:700px){.wrap{padding:14px 14px 30px}.hero{padding:20px}.shared-status{padding:12px}.type-actions{flex-wrap:wrap}}
+  .shared-status{padding:14px 16px;border:1px solid #c8e5d3;background:#edf7f1;border-radius:14px;margin:14px 0;color:#205d37;font-size:14px}.shared-status.pending{border-color:#efd48a;background:#fff3cd;color:#735600}.shared-status.problem{border-color:#efbdc5;background:#ffebee;color:#a52536}.shared-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}.shared-detail{white-space:pre-wrap;overflow-wrap:anywhere;margin-top:7px}.compact{font-size:13px;padding:7px 12px}.recovery-card{background:#f8f6ff;border:1px solid #d9d5ea;padding:14px;border-radius:14px;margin-top:14px}.recovery-card p{font-size:14px}.entry{overflow-wrap:anywhere}button:disabled{opacity:.5;cursor:wait}@media(max-width:700px){.wrap{padding:14px 14px 30px}.hero{padding:20px}.shared-status{padding:12px}}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <div class="toolbar">
-    <button id="editBtn" onclick="toggleEdit()">✏️ Edit text</button>
-    <button id="saveBtn" onclick="downloadPage()" style="display:none">⬇ Download edited page</button>
-  </div>
-  <p class="small" id="editHint" style="display:none">Edit mode is on: tap any heading or paragraph and type. When you finish, tap “Download edited page”, then use that downloaded file.</p>
-
   <div class="hero">
-    <h1>So today's listing videos day 🎬</h1>
-    <p>Please just input your listing videos here.<br>Feel free to also use your creativity to add emoticons. ✨</p>
+    <h1>Viral Video Pool 🎬</h1>
+    <p>Add your video link and choose your group below.</p>
   </div>
 
   <div id="sharedStatusBar" class="shared-status pending" role="status" aria-live="polite"><strong id="sharedStatusText">Loading the shared list…</strong><div id="sharedStatusDetail" class="shared-detail"></div><div id="sharedStatusActions" class="shared-actions"></div></div>
@@ -69,8 +60,6 @@
       <button id="tab-skill" onclick="showExample('skill')" style="flex:1 0 auto;padding:9px 12px;border-radius:999px;border:2px solid #d9d5ea;background:#fff;color:#372179;font-size:13px;font-weight:800;white-space:nowrap">Compare 5 vs 8 with Logo</button>
       <button id="tab-compareNoLogo" onclick="showExample('compareNoLogo')" style="flex:1 0 auto;padding:9px 12px;border-radius:999px;border:2px solid #d9d5ea;background:#fff;color:#372179;font-size:13px;font-weight:800;white-space:nowrap">Compare 5 vs 8 without Logo</button>
     </div>
-    <button class="ghost" id="addTypeButton" disabled onclick="addNewType()" style="margin-top:8px">＋ Add a new type</button>
-    <p class="small" id="typeResult" style="display:none"></p>
     <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:flex-start">
       <div style="flex:1 1 280px">
         <div class="card" id="sampleVisual" style="padding:0;overflow:hidden"></div>
@@ -89,7 +78,7 @@
         </div>
       </div>
     </div>
-    <p class="small">More types can be added here as tabs, one tab per type. No Type 1 / Type 2 groups.</p>
+    <p class="small">Choose an example above. Shared video types are managed by Summer.</p>
   </div>
 
   <div class="section">
@@ -155,7 +144,7 @@
   </div>
 
   <div class="section" style="border-bottom:none">
-    <h2>All listing videos</h2>
+    <h2>All submitted videos</h2>
     <p>Pick a group to see only that group.</p>
     <label>Show group
       <select id="filter" onchange="renderList()">
@@ -173,22 +162,14 @@
       <p>Already submitted using the old website? Open its recovery page in the same browser and device you used before. Your old browser copy will stay available until you choose to transfer it.</p>
       <p><a href="https://summergjlong.github.io/cathoven-creator-steps/listing-videos-day/?recover=1" target="_blank" rel="noopener noreferrer">Open the original-site recovery page →</a></p>
       <div id="localRecovery" hidden><p><b><span id="localRecoveryCount"></span> previous item(s) found on this browser.</b></p><button class="ghost" id="importLocalButton" disabled onclick="ListingUI.importLocal()">Import previous browser submissions</button><button class="ghost" onclick="ListingUI.downloadLocal()">Download browser recovery copy</button></div>
-      <details><summary>Import a JSON backup</summary><p class="small">Choose a Listing Videos backup. Repeated links are counted once. A link claimed by a different creator is kept for review.</p><input id="backupInput" type="file" accept=".json,application/json" disabled onchange="ListingUI.importFile(this)"></details>
+      <details><summary>Import a JSON backup</summary><p class="small">Choose a Viral Video Pool backup. Repeated links are counted once. Saved copies containing shared video types need Summer's administrator login.</p><input id="backupInput" type="file" accept=".json,application/json" disabled onchange="ListingUI.importFile(this)"></details>
       <button class="ghost" id="downloadSharedButton" disabled onclick="ListingUI.downloadShared()">Download shared list</button>
       <p class="small" id="recoveryMsg" style="display:none" role="status"></p>
     </div>
   </div>
+  <p class="small" style="margin-top:24px"><a href="./admin/">Admin</a> · Shared video types are managed by Summer.</p>
 </div>
 
-<div id="typeModal" class="type-modal" hidden>
-  <div class="type-dialog" role="dialog" aria-modal="true" aria-labelledby="typeTitle">
-    <h2 id="typeTitle">Add a shared video type</h2><p class="small">After it saves, everyone can use this type.</p>
-    <label>Type name <input id="newTypeName" maxlength="200" placeholder="For example: Star List"></label>
-    <label>Example video link (optional) <input id="newTypeVideo" placeholder="Paste an http or https video link"></label>
-    <p class="small" id="typeMsg" role="status" style="display:none"></p>
-    <div class="type-actions"><button class="ghost" onclick="ListingUI.closeType()">Cancel</button><button class="bigbtn" id="saveTypeButton" disabled onclick="ListingUI.saveType()">Save shared type</button></div>
-  </div>
-</div>
 <script src="./shared-client.js"></script>
 <script>
   var videos = [];
@@ -279,7 +260,6 @@
     refreshVisuals();
   }
 
-  function addNewType(){ if(window.ListingUI)ListingUI.openType(); }
   function useExample(){ refreshVisuals(); document.getElementById("makeSet").scrollIntoView(); }
 
   function sampleVisualHtml(key){
@@ -611,37 +591,6 @@
     }).join("\n");
     doCopy(text, "copyAllBox", "copyMsg");
   }
-  var editing=false;
-  function toggleEdit(){
-    editing=!editing;document.body.className=editing?"editing":"";
-    var els=document.querySelectorAll("h1, h2, h3, p, li");
-    for(var i=0;i<els.length;i++){els[i].contentEditable=editing?"true":"false";}
-    document.getElementById("editBtn").textContent=editing?"✓ Done editing":"✏️ Edit text";
-    document.getElementById("saveBtn").style.display=editing?"block":"none";
-    document.getElementById("editHint").style.display=editing?"block":"none";
-  }
-  function downloadPage(){
-    if(editing)toggleEdit();
-    var clone=document.documentElement.cloneNode(true);
-    function clear(id,text){var el=clone.querySelector('#'+id);if(el){el.replaceChildren();if(text)el.textContent=text;}}
-    clear('list','Shared submissions load from the server when this page is online.');
-    clear('counts','Loading shared counts…');
-    clear('sharedStatusText','Loading the shared list…');
-    ['sharedStatusDetail','sharedStatusActions','localRecoveryCount','formMsg','typeMsg','typeResult','recoveryMsg','copyAllBox','copyTextBox'].forEach(function(id){clear(id);});
-    var status=clone.querySelector('#sharedStatusBar');if(status)status.className='shared-status pending';
-    ['localRecovery','typeModal'].forEach(function(id){var el=clone.querySelector('#'+id);if(el)el.hidden=true;});
-    clone.querySelectorAll('[data-shared-type]').forEach(function(el){el.remove();});
-    ['sampleVisual','makeVisual','mySetPreview','compareSettings','comparePreview','logoPack'].forEach(function(id){clear(id);});
-    var baseExample=EXAMPLES.simple;
-    [['exTitle',baseExample.title],['exTitleText',baseExample.title],['exHook',baseExample.hook],['exMusic','Watch the original video.'],['exLayout',baseExample.layout],['exExpression','Watch the original video.'],['modeBanner','✅ YOU ARE MAKING: Website List']].forEach(function(item){var el=clone.querySelector('#'+item[0]);if(el)el.textContent=item[1];});
-    ['exLink','sampleLink','makeLink'].forEach(function(id){var el=clone.querySelector('#'+id);if(el)el.setAttribute('href',baseExample.video);});
-    clone.querySelectorAll('input,textarea').forEach(function(el){el.removeAttribute('value');el.value='';if(el.tagName==='TEXTAREA')el.textContent='';});
-    clone.querySelectorAll('[contenteditable]').forEach(function(el){el.setAttribute('contenteditable','false');});
-    var html="<!DOCTYPE html>\n"+clone.outerHTML;
-    var blob=new Blob([html],{type:"text/html"});var a=document.createElement("a");
-    var url=URL.createObjectURL(blob);a.href=url;a.download="video-listing-guide-edited.html";a.click();setTimeout(function(){URL.revokeObjectURL(url);},5000);
-  }
-
   renderCathovenPick(); renderMySet(); renderList(); showExample('simple');
 </script>
 <script src="./shared-ui.js"></script>

@@ -105,7 +105,7 @@
   }
   function importPayload(value) {
     if(Array.isArray(value))value={videos:value,types:[],examples:[]};
-    if(!value||typeof value!=='object')throw new Error('Choose a Listing Videos JSON backup.');
+    if(!value||typeof value!=='object')throw new Error('Choose a Viral Video Pool JSON backup.');
     if(value.format==='listing-pending-v1')throw new Error('This file contains pending operations. Use the original browser Retry button, or import its individual submissions after review.');
     const payload={videos:value.videos||[],types:value.types||[],examples:value.examples||[]};
     if(!Array.isArray(payload.videos)||!Array.isArray(payload.types)||!Array.isArray(payload.examples))throw new Error('The backup must contain video, type and example lists.');

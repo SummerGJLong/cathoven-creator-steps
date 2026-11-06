@@ -300,6 +300,84 @@ class HttpTests(unittest.TestCase):
         self.assertEqual((status, body), (200, {'status': 'ok'}))
         self.assertEqual(self.request(headers={'X-Listing-Key': 'wrong'})[0], 403)
 
+    def test_admin_session_requires_gateway_key_and_exact_trusted_role(self):
+        status, _, body = self.request(path='/api/admin-session')
+        self.assertEqual((status, body['error']), (403, 'admin_required'))
+        for marker in ('', 'true', '0', '01'):
+            self.assertEqual(self.request(path='/api/admin-session', headers={'X-Listing-Admin': marker})[0], 403)
+        status, _, body = self.request(path='/api/admin-session', headers={'X-Listing-Admin': '1'})
+        self.assertEqual((status, body), (200, {'authenticated': True, 'role': 'admin'}))
+        status, _, body = self.request(path='/api/admin-session', headers={'X-Listing-Admin': '1'}, authorized=False)
+        self.assertEqual((status, body['error']), (403, 'forbidden'))
+        self.assertEqual(self.request(path='/api/admin-session', headers={'X-Listing-Admin': '1', 'X-Listing-Key': 'wrong'})[0], 403)
+        self.assertEqual(self.request()[0], 200)
+
+    def test_shared_type_creation_requires_admin_before_reserving_operation(self):
+        payload = {'operationId': str(uuid.uuid4()), 'type': {'name': 'Protected format', 'video': item(8)['link']}}
+        status, _, body = self.request('POST', '/api/types', payload)
+        self.assertEqual((status, body['error']), (403, 'admin_required'))
+        self.assertIn('ask Summer', body['message'])
+        self.assertEqual(self.request()[2]['types'], [])
+        # The denied attempt does not reserve the ID, so an authorized retry can
+        # commit that exact request and retain the usual idempotence behavior.
+        status, _, saved = self.request('POST', '/api/types', payload, headers={'X-Listing-Admin': '1'})
+        self.assertEqual(status, 200)
+        self.assertTrue(saved['added'])
+        self.assertEqual(self.request()[2]['types'][0]['name'], 'Protected format')
+        status, _, replay = self.request('POST', '/api/types', payload, headers={'X-Listing-Admin': '1'})
+        self.assertEqual(status, 200)
+        self.assertTrue(replay['replayed'])
+        self.assertFalse(replay['added'])
+        # Replaying a committed request does not bypass the role boundary.
+        self.assertEqual(self.request('POST', '/api/types', payload)[0], 403)
+
+    def test_import_cannot_bypass_shared_type_admin_guard(self):
+        payload = importing(videos=[item()], types=[{'key': 'custom1', 'name': 'Protected legacy format'}],
+                            examples=[{'link': item(6)['link']}])
+        status, _, body = self.request('POST', '/api/import', payload, headers={'Origin': LEGACY})
+        self.assertEqual((status, body['error']), (403, 'admin_required'))
+        self.assertEqual(self.request()[2]['counts']['total'], 0)
+        self.assertEqual(self.request()[2]['types'], [])
+        connection = self.store.connect()
+        self.assertEqual(connection.execute('SELECT count(*) FROM operations').fetchone()[0], 0)
+        self.assertEqual(connection.execute('SELECT count(*) FROM legacy_examples').fetchone()[0], 0)
+        connection.close()
+        status, _, result = self.request('POST', '/api/import', payload, headers={'X-Listing-Admin': '1'})
+        self.assertEqual(status, 200)
+        self.assertEqual(result['imported'], {'videos': 1, 'types': 1, 'examples': 1})
+        self.assertEqual(self.request('POST', '/api/import', payload)[0], 403)
+
+    def test_public_video_only_and_empty_imports_remain_available(self):
+        self.assertEqual(self.request('POST', '/api/videos', submit())[0], 200)
+        status, _, result = self.request('POST', '/api/import', importing(videos=[item(2)]), headers={'Origin': LEGACY})
+        self.assertEqual(status, 200)
+        self.assertEqual(result['imported']['videos'], 1)
+        self.assertEqual(result['counts']['total'], 2)
+        status, _, empty = self.request('POST', '/api/import', importing())
+        self.assertEqual(status, 200)
+        self.assertEqual(empty['imported'], {'videos': 0, 'types': 0, 'examples': 0})
+        self.assertEqual(self.request()[2]['counts']['total'], 2)
+
+    def test_admin_flag_in_json_is_not_an_authorization_channel(self):
+        payload = {'operationId': str(uuid.uuid4()), 'type': {'name': 'Untrusted format'}, 'admin': True}
+        status, _, body = self.request('POST', '/api/types', payload)
+        self.assertEqual((status, body['error']), (403, 'admin_required'))
+        payload = importing(types=[{'name': 'Untrusted imported format'}])
+        payload['admin'] = True
+        self.assertEqual(self.request('POST', '/api/import', payload)[0], 403)
+        self.assertEqual(self.request()[2]['types'], [])
+
+    def test_administrator_still_requires_origin_custom_header_and_json(self):
+        payload = {'operationId': str(uuid.uuid4()), 'type': {'name': 'Validated admin format'}}
+        for changes, expected in [({'Origin': 'https://untrusted.example'}, 403),
+                                  ({'X-Listing-Request': ''}, 403),
+                                  ({'Content-Type': 'text/plain'}, 415)]:
+            with self.subTest(headers=changes):
+                headers = dict(changes, **{'X-Listing-Admin': '1'})
+                self.assertEqual(self.request('POST', '/api/types', payload, headers=headers)[0], expected)
+        self.assertEqual(self.request()[2]['types'], [])
+        self.assertEqual(self.request('POST', '/api/types', payload, headers={'X-Listing-Admin': '1'})[0], 200)
+
     def test_http_save_visible_to_independent_client_and_http_restart(self):
         payload = submit()
         self.assertEqual(self.request('POST', '/api/videos', payload)[0], 200)
